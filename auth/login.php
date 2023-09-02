@@ -17,6 +17,8 @@ if (isset($_SESSION['id']) && $_SESSION['username']) {
 $msg = "";
 if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['submit'])) {
 
+    /* $conn->setAttribute(PDO::ATTR_EMULATE_PREPARES, false);
+    $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION); */
 
     $email = filter_var($_POST['email']);
     $password = filter_var($_POST['password']);
