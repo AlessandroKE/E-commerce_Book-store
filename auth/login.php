@@ -47,7 +47,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['submit'])) {
                 if(password_verify($password, $row['password'])){
           
                   $_SESSION['username'] = $row['username'];
-                  $_SESSION['id'] = $row['id'];
+                  $_SESSION['user_id'] = $row['id'];
           
                     if ($row['userType'] == 'admin'){
                         header('Location:http://localhost/bookstore/auth/register.php');
