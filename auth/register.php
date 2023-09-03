@@ -2,6 +2,11 @@
 require "../includes/header.php";
 require "../config/config.php";
 
+
+if (isset($_SESSION['user_id']) && $_SESSION['username']) {
+    header("Location: " . APPURL . "");
+}
+
 if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['submit'])) {
     $username = $_POST["username"];
     $email = $_POST["email"];
@@ -36,7 +41,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['submit'])) {
                 $stmt->bindParam(':password', $hashedPassword);
 
                 if ($stmt->execute()) {
-                    header("Location: http://localhost/bookstore/index.php");
+                    header("Location: http://localhost/bookstore/auth/login.php");
                 } else {
                     echo "Registration failed.";
                 }
@@ -94,7 +99,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['submit'])) {
             <div class="">
                 <label for="confirmPassword" class="col-sm-3 col-form-label">Confirm Password</label>
                 <div class="input-group">
-                    <input type="password" name="confirm_password" class="form-control" id="confirmPassword" value = "">
+                    <input type="password" name="confirm_password" class="form-control" id="confirmPassword" value="">
                     <div class="input-group-append">
                         <button type="button" id="showConfirmPasswordBtn" class="btn btn-outline-secondary" onclick="togglePasswordVisibility('confirmPassword')">
                             <i class="fas fa-eye" id="confirmPasswordIcon"></i>

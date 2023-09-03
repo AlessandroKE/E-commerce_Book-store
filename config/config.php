@@ -22,10 +22,7 @@ try {
     // Set error mode/handling in PDO to exceptions
     $conn->setAttribute(PDO::ATTR_EMULATE_PREPARES, false);
     $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-
-
 } catch (PDOException $e) {
     // If an exception occurs, handle it here
     echo 'Connection failed: ' . $e->getMessage();
 }
-

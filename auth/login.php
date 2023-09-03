@@ -10,17 +10,17 @@
 
 
 
-session_start();
 
-if (isset($_SESSION['id']) && $_SESSION['username']) {
-    header("Location: http://localhost/bookstore/index.php");
-}else{
+
+if (isset($_SESSION['user_id']) && $_SESSION['username']) {
+    header("Location: " . APPURL . "");
+} else {
     header("http://localhost/bookstore/auth/login.php");
 }
 
 ?>
 
-<?php 
+<?php
 $msg = "";
 if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['submit'])) {
 
@@ -41,41 +41,35 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['submit'])) {
             $query->execute();
             $count = $query->rowCount();
             $row = $query->fetch(PDO::FETCH_ASSOC);
-            
+
 
             if ($query->rowCount() > 0) {
-                if(password_verify($password, $row['password'])){
-          
-                  $_SESSION['username'] = $row['username'];
-                  $_SESSION['user_id'] = $row['id'];
-          
-                    if ($row['userType'] == 'admin'){
+                if (password_verify($password, $row['password'])) {
+
+                    $_SESSION['username'] = $row['username'];
+                    $_SESSION['user_id'] = $row['id'];
+
+                    if ($row['userType'] == 'admin') {
                         header('Location:http://localhost/bookstore/auth/register.php');
-                    }else{
-                 // echo "Logged in sucessfully";
-                 header("Location: http://localhost/bookstore/index.php");
                     }
 
-                }else{
-                    echo "wrong username or password"; 
+                    if ($row['userType'] == '') {
+                        // echo "Logged in sucessfully";
+                        header("Location: " . APPURL . "");
+                    }
+                } else {
+                    echo "wrong username or password";
                 }
-            }
-            
-            else{
+            } else {
                 echo "user not found";
             }
-          
-
-        }catch(PDOException $e){
+        } catch (PDOException $e) {
 
             echo "Error : " . $e->getMessage();
-
         }
-
-}else{
-    $msg = "Both fields are required!";
-}
-
+    } else {
+        $msg = "Both fields are required!";
+    }
 }
 
 

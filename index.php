@@ -1,5 +1,6 @@
 <?php require "includes/header.php"; ?>
-        <div class="row mt-5">
+<div class="container">
+      <!--   <div class="row mt-5"> -->
             <div class="col-lg-4 col-md-6 col-sm-10 offset-md-0 offset-sm-1">
                 <div class="card" >
                     <img height="213px" class="card-img-top" src="images/node.png">
@@ -80,5 +81,6 @@
                 </div>
             </div>
          </div>
+</div>
 
 <?php require "includes/footer.php"; ?>
