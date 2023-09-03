@@ -3,6 +3,13 @@
 
 <?php
 
+/**
+ * Add forgot password
+ * CAPTCHA or Rate Limiting:
+ */
+
+
+
 session_start();
 
 if (isset($_SESSION['id']) && $_SESSION['username']) {
@@ -19,7 +26,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['submit'])) {
 
     /* $conn->setAttribute(PDO::ATTR_EMULATE_PREPARES, false);
     $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION); */
-
+    /**
+     * 
+     */
     $email = filter_var($_POST['email']);
     $password = filter_var($_POST['password']);
 
@@ -32,6 +41,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['submit'])) {
             $query->execute();
             $count = $query->rowCount();
             $row = $query->fetch(PDO::FETCH_ASSOC);
+            
 
             if ($query->rowCount() > 0) {
                 if(password_verify($password, $row['password'])){
