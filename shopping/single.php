@@ -1,6 +1,6 @@
 
-<?php require "includes/header.php"; ?>
-<?php require "config/config.php";?>
+<?php require "../includes/header.php"; ?>
+<?php require "../config/config.php";?>
 
         <div class="row d-flex justify-content-center">
             <div class="col-md-10">
