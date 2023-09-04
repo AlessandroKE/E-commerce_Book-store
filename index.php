@@ -24,8 +24,9 @@ $rows = $sql->fetchAll(PDO::FETCH_OBJ);
                     <h5 class="d-inline">
                         <div class="text-muted d-inline">(<?php echo $row->price ." ksh" ;?>/item)</div>
                     </h5>
+                  <!--   The following line extracts the first 120 characters of the description and displays it. -->
                     <p><?php echo substr($row->description, 0, 120);?></p>
-                    <a href="<?php echo APPURL; ?>/shopping/single.php?id=<?php echo $row->id;?>" class="btn btn-primary w-100 rounded my-2">More <i class="fas fa-arrow-right"></i></a>
+                    <a href="<?php echo APPURL; ?>/shopping/single.php?prod_id=<?php echo $row->id;?>" class="btn btn-primary w-100 rounded my-2">More <i class="fas fa-arrow-right"></i></a>
                 </div>
             </div>
         </div>
