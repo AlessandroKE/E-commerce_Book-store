@@ -43,7 +43,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['submit'])) {
                 if ($stmt->execute()) {
                     header("Location: http://localhost/bookstore/auth/login.php");
                 } else {
-                    echo "Registration failed.";
+                    echo "Registration failed";
                 }
             }
         } catch (PDOException $e) {

@@ -77,3 +77,4 @@ define("APPURL", "http://localhost/bookstore/");
         </div>
     </nav>
 
+    <div class="container">
