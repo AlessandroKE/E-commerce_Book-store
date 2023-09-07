@@ -41,7 +41,7 @@ if(isset($_GET['prod_id'])){
                                 </div>
                                 <p class="about"><?php echo $row->description; ?></p>
                               
-                                <div class="cart mt-4 align-items-center"> <button class="btn btn-primary text-uppercase mr-2 px-4"><i class="fas fa-shopping-cart"></i> Add to cart</button> </div>
+                                <div class="cart mt-4 align-items-center"> <a href = http://localhost/bookstore/shopping/cart.php> <button class="btn btn-primary text-uppercase mr-2 px-4"><i class="fas fa-shopping-cart"></i> Add to cart</button> </a> </div>
                             </div>
                         </div>
                     </div>
