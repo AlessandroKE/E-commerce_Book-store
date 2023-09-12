@@ -44,31 +44,31 @@ if (isset($_GET['prod_id'])) {
                         <form method="POST" id="form-data">
 
                             <div class="">
-                                <input name="pro_id" type="text" class="form-control" >
+                                <input name="pro_id" type="text" class="form-control" value = "<?php echo $row->id; ?>">
                             </div>
 
                             <div class="">
-                                <input name="pro_name" type="text" class="form-control" >
+                                <input name="pro_name" type="text" class="form-control" value = "<?php echo $row->name; ?>" >
                             </div>
 
                             <div class="">
-                                <input name="pro_image" type="text" class="form-control" >
+                                <input name="pro_image" type="text" class="form-control"value = "<?php echo $row->image; ?>" >
                             </div>
 
                             <div class="">
-                                <input name="pro_price" type="text" class="form-control" >
+                                <input name="pro_price" type="text" class="form-control" value = "<?php echo $row->price; ?>">
                             </div>
 
                             <div class="">
-                                <input name="pro_amount" type="text" class="form-control" >
+                                <input name="pro_amount" type="text" class="form-control" value = "1" >
                             </div>
 
                             <div class="">
-                                <input name="pro_file" type="text" class="form-control" >
+                                <input name="pro_file" type="text" class="form-control" value = "<?php echo $row->file; ?>">
                             </div>
 
                             <div class="">
-                                <input name="user_id" type="text" class="form-control" >
+                                <input name="user_id" type="text" class="form-control" value = "<?php echo $_SESSION['user_id'] ?>" >
                             </div>
 
 
