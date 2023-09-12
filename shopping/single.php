@@ -44,36 +44,37 @@ if (isset($_GET['prod_id'])) {
                         <form method="POST" id="form-data">
 
                             <div class="">
-                                <input name="pro_id" type="text" class="form-control" value = "<?php echo $row->id; ?>">
+                                <input name="pro_id" type="text" class="form-control" value="<?php echo $row->id; ?>">
                             </div>
 
                             <div class="">
-                                <input name="pro_name" type="text" class="form-control" value = "<?php echo $row->name; ?>" >
+                                <input name="pro_name" type="text" class="form-control" value="<?php echo $row->name; ?>">
                             </div>
 
                             <div class="">
-                                <input name="pro_image" type="text" class="form-control"value = "<?php echo $row->image; ?>" >
+                                <input name="pro_image" type="text" class="form-control" value="<?php echo $row->image; ?>">
                             </div>
 
                             <div class="">
-                                <input name="pro_price" type="text" class="form-control" value = "<?php echo $row->price; ?>">
+                                <input name="pro_price" type="text" class="form-control" value="<?php echo $row->price; ?>">
                             </div>
 
                             <div class="">
-                                <input name="pro_amount" type="text" class="form-control" value = "1" >
+                                <input name="pro_amount" type="text" class="form-control" value="1">
                             </div>
 
                             <div class="">
-                                <input name="pro_file" type="text" class="form-control" value = "<?php echo $row->file; ?>">
+                                <input name="pro_file" type="text" class="form-control" value="<?php echo $row->file; ?>">
                             </div>
 
                             <div class="">
-                                <input name="user_id" type="text" class="form-control" value = "<?php echo $_SESSION['user_id'] ?>" >
+                                <input name="user_id" type="text" class="form-control" value="<?php echo $_SESSION['user_id'] ?>">
                             </div>
-
-
-                    <!--     </form> -->
-                        <div class="cart mt-4 align-items-center"> <!-- <a href=http://localhost/bookstore/shopping/cart.php> --> <button name = "submit" type = "submit "class="btn btn-primary text-uppercase mr-2 px-4"><i class="fas fa-shopping-cart"></i> Add to cart</button> <!-- </a>  --></div>
+                       
+                            <div class="cart mt-4 align-items-center"> 
+                                <button name="submit" type="submit " class="btn btn-primary text-uppercase mr-2 px-4"><i class="fas fa-shopping-cart"></i> Add to cart</button> 
+                            </div>
+                        </form>
                     </div>
                 </div>
             </div>
@@ -81,3 +82,12 @@ if (isset($_GET['prod_id'])) {
     </div>
 </div>
 <?php require "../includes/footer.php"; ?>
+
+<script>
+$(document).ready(function(){
+/*   console.log("Hello"); */
+    $(document).on("submit", function(e){
+        alert('Clicked');
+    })
+});
+</script>
