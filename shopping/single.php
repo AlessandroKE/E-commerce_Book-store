@@ -1,23 +1,39 @@
 <?php require "../includes/header.php"; ?>
 <?php require "../config/config.php"; ?>
 
+
 <?php
+
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
 
 
 $isLoggedIn = isset($_SESSION['user_id']);
 
-    if(isset($_POST['submit'])){
-        $pro_id = $_POST['pro_id'];
-        $pro_name = $_POST['pro_name'];
-        $pro_image = $_POST['pro_image'];
-        $pro_price = $_POST['pro_price'];
-        $pro_amount = $_POST['pro_amount'];
-        $pro_file = $_POST['pro_file'];
-        $user_id = $_POST['user_id'];
+if (isset($_POST['submit'])) {
+   $pro_id = $_POST['pro_id'];
+    $pro_name = $_POST['pro_name'];
+    $pro_image = $_POST['pro_image'];
+    $pro_price = $_POST['pro_price'];
+    $pro_amount = $_POST['pro_amount'];
+    $pro_file = $_POST['pro_file'];
+    $user_id = $_POST['user_id'];
 
-        $sql = "INSERT INTO cart (pro_id,pro_name,pro_image,pro_price,pro_amount,pro_file,user_id)
-         VALUES(:pro_id,:pro_name,:pro_image,:pro_price,:pro_amount,:pro_file,:user_id)";
-    }
+    $sql = "INSERT INTO cart (id,pro_name,pro_image,pro_price,pro_amount,pro_file,user_id)
+        VALUES(:pro_id,:pro_name,:pro_image,:pro_price,:pro_amount,:pro_file,:user_id)";
+
+    $insert = $conn->prepare($sql);
+    $insert->execute([
+        'pro_id' => $pro_id,
+        'pro_name' => $pro_name,
+        'pro_image' => $pro_image,
+        'pro_price' => $pro_price,
+        'pro_amount' => $pro_amount,
+        'pro_file' => $pro_file,
+        'user_id' => $user_id,
+    ]);
+}
 
 if (isset($_GET['prod_id'])) {
     $id = $_GET['prod_id'];
@@ -88,11 +104,14 @@ if (isset($_GET['prod_id'])) {
                             </div>
 
                             <div class="cart mt-4 align-items-center">
-                                <?php if ($isLoggedIn) : ?>
+                                <?php if ($isLoggedIn) :
+                                ?>
                                     <button name="submit" type="submit" class="btn btn-primary text-uppercase mr-2 px-4"><i class="fas fa-shopping-cart"></i> Add to cart</button>
-                                <?php else : ?>
+                                <?php else :
+                                ?>
                                     <button type="button" class="btn btn-secondary text-uppercase mr-2 px-4" disabled><i class="fas fa-shopping-cart"></i> Log in to add to cart</button>
-                                <?php endif; ?>
+                                <?php endif;
+                                ?>
                             </div>
 
                         </form>
@@ -104,22 +123,31 @@ if (isset($_GET['prod_id'])) {
 </div>
 <?php require "../includes/footer.php"; ?>
 
- <script>
-    $(document).ready(function() {
-        /*   console.log("Hello"); */
-        $(document).on("submit", function(e) {
-          var formdata = $("#formdata").serialize()+"&submit;&submit";
-        })
-    });
-</script> 
-
 <script>
-    $(document).ready(function(){
-    $(document).on("submit", "#form-data", function(e){
+  $(document).ready(function() {
+    $(document).on("submit", "#form-data", function(e) {
+        e.preventDefault();
+
         <?php if (!$isLoggedIn): ?>
-            e.preventDefault(); // Prevent form submission
             alert('Please log in to add items to the cart.');
+            return; // Exit the function if the user is not logged in
         <?php endif; ?>
+
+        var formdata = $("#form-data").serialize();
+
+        $.ajax({
+            type: "POST",
+            //url: "localhost/bookstore/shopping/single.php?id=<?php echo $id;?>",
+            url: "single.php?id=<?php echo $id ?>",
+            data: formdata,
+            success: function() {
+                alert("added to cart successfully");
+            },
+            error: function(jqXHR, textStatus, errorThrown) {
+                alert("Error: " + textStatus + "\n" + errorThrown);
+            }
+        });
     });
 });
+
 </script>
