@@ -53,7 +53,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['submit'])) {
                         header('Location:http://localhost/bookstore/auth/register.php');
                     }
 
-                    if ($row['userType'] == '') {
+
+                    //************ CHANGES MADE HERE TEST TO CONFIRM WHETHER ITS WORKING ************
+                    elseif($row['userType'] == '') {
                         // echo "Logged in sucessfully";
                         header("Location: " . APPURL . "");
                     }
