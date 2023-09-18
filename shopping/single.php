@@ -20,7 +20,7 @@ if (isset($_POST['submit'])) {
     $pro_file = $_POST['pro_file'];
     $user_id = $_POST['user_id'];
 
-    $sql = "INSERT INTO cart (id,pro_name,pro_image,pro_price,pro_amount,pro_file,user_id)
+    $sql = "INSERT INTO cart (pro_id,pro_name,pro_image,pro_price,pro_amount,pro_file,user_id)
         VALUES(:pro_id,:pro_name,:pro_image,:pro_price,:pro_amount,:pro_file,:user_id)";
 
     $insert = $conn->prepare($sql);
@@ -133,7 +133,7 @@ if (isset($_GET['prod_id'])) {
             return; // Exit the function if the user is not logged in
         <?php endif; ?>
 
-        var formdata = $("#form-data").serialize();
+        var formdata = $("#form-data").serialize()+'&submit=submit';
 
         $.ajax({
             type: "POST",
