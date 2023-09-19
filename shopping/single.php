@@ -33,6 +33,14 @@ if (isset($_POST['submit'])) {
         'pro_file' => $pro_file,
         'user_id' => $user_id,
     ]);
+
+    /* if ($insert->rowCount() > 0) {
+        echo "Success";
+        exit;  // Exit after sending response
+    } else {
+        echo "Failed to add to cart.";
+        exit;  // Exit after sending response
+    } */
 }
 
 if (isset($_GET['prod_id'])) {
@@ -124,30 +132,33 @@ if (isset($_GET['prod_id'])) {
 <?php require "../includes/footer.php"; ?>
 
 <script>
-  $(document).ready(function() {
-    $(document).on("submit", "#form-data", function(e) {
+$(document).ready(function() {
+    $("#form-data").submit(function(e) {
         e.preventDefault();
 
         <?php if (!$isLoggedIn): ?>
             alert('Please log in to add items to the cart.');
-            return; // Exit the function if the user is not logged in
+            return; 
         <?php endif; ?>
 
-        var formdata = $("#form-data").serialize()+'&submit=submit';
+        var formdata = $(this).serialize() + '&submit=submit';
 
         $.ajax({
             type: "POST",
-            //url: "localhost/bookstore/shopping/single.php?id=<?php echo $id;?>",
             url: "single.php?id=<?php echo $id ?>",
             data: formdata,
-            success: function() {
-                alert("added to cart successfully");
+            success: function(response) {
+                if(response === "Success") {
+                    alert("Added to cart successfully");
+                } else {
+                    alert(response); // This will alert "Failed to add to cart."
+                }
             },
             error: function(jqXHR, textStatus, errorThrown) {
+                console.log(jqXHR.responseText);
                 alert("Error: " + textStatus + "\n" + errorThrown);
             }
         });
     });
 });
-
 </script>
