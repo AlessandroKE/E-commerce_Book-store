@@ -4,9 +4,9 @@
 
 <?php
 
-ini_set('display_errors', 1);
+/* ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
-error_reporting(E_ALL);
+error_reporting(E_ALL); */
 
 
 $isLoggedIn = isset($_SESSION['user_id']);
@@ -46,7 +46,14 @@ if (isset($_POST['submit'])) {
 if (isset($_GET['prod_id'])) {
     $id = $_GET['prod_id'];
 
-    $sql = "SELECT * FROM products WHERE id = :id"; // Updated SQL query using parameter binding
+    $sql = "SELECT * FROM products WHERE id = :id AND status = 1"; // Updated SQL query using parameter binding
+
+    //To include $SESSION variable one must concatenate it to a string value.
+    $select = $conn->query("SELECT * FROM cart WHERE pro_id = '$id' AND user_id = '" . $_SESSION['user_id'] . "'");
+    $select->execute();
+
+    $fetch = $select->fetch(PDO::FETCH_OBJ);
+
 
     $stmt = $conn->prepare($sql);
     $stmt->bindParam(':id', $id); // Bind the ID parameter
@@ -112,14 +119,13 @@ if (isset($_GET['prod_id'])) {
                             </div>
 
                             <div class="cart mt-4 align-items-center">
-                                <?php if ($isLoggedIn) :
-                                ?>
-                                    <button name="submit" type="submit" class="btn btn-primary text-uppercase mr-2 px-4"><i class="fas fa-shopping-cart"></i> Add to cart</button>
-                                <?php else :
-                                ?>
-                                    <button type="button" class="btn btn-secondary text-uppercase mr-2 px-4" disabled><i class="fas fa-shopping-cart"></i> Log in to add to cart</button>
-                                <?php endif;
-                                ?>
+                               
+                            <?php if($select->rowcount()>0) : ?>
+                                     <button id = "submit" name="submit" type="submit" disabled class="btn btn-primary text-uppercase mr-2 px-4"><i class="fas fa-shopping-cart"></i> Added to cart</button>
+                            <?php else : ?>       
+                                     <button id = "submit" name="submit" type="submit" class="btn btn-primary text-uppercase mr-2 px-4"><i class="fas fa-shopping-cart"></i> Add to cart</button>
+                                   <!--  <button type="button" class="btn btn-secondary text-uppercase mr-2 px-4" disabled><i class="fas fa-shopping-cart"></i> Log in to add to cart</button> -->
+                              <?php endif; ?>
                             </div>
 
                         </form>
@@ -130,7 +136,7 @@ if (isset($_GET['prod_id'])) {
     </div>
 </div>
 <?php require "../includes/footer.php"; ?>
-
+<!-- 
 <script>
 $(document).ready(function() {
     $("#form-data").submit(function(e) {
@@ -150,6 +156,41 @@ $(document).ready(function() {
             success: function(response) {
                 if(response === "Success") {
                     alert("Added to cart successfully");
+                } else {
+                    alert(response); // This will alert "Failed to add to cart."
+                }
+            },
+            error: function(jqXHR, textStatus, errorThrown) {
+                console.log(jqXHR.responseText);
+                alert("Error: " + textStatus + "\n" + errorThrown);
+            }
+        });
+    });
+});
+</script>
+ -->
+
+ <script>
+$(document).ready(function() {
+    $(document).on("submit", "#form-data", function(e) {
+        e.preventDefault();
+
+        <?php if (!$isLoggedIn): ?>
+            alert('Please log in to add items to the cart.');
+            return;
+        <?php endif; ?>
+
+        var formdata = $(this).serialize() + '&submit=submit';
+        var addButton = $("#submit"); // Select the button element
+
+        $.ajax({
+            type: "POST",
+            url: "single.php?prod_id=<?php echo $id; ?>",
+            data: formdata,
+            success: function(response) {
+                if (response === "Success") {
+                    alert("Added to cart successfully");
+                    addButton.prop("disabled", true); // Disable the button
                 } else {
                     alert(response); // This will alert "Failed to add to cart."
                 }
