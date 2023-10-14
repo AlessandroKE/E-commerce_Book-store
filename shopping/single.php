@@ -142,16 +142,16 @@ $(document).ready(function() {
     $("#form-data").submit(function(e) {
         e.preventDefault();
 
-        <?php if (!$isLoggedIn): ?>
+     <?php //if (!$isLoggedIn): ?>
             alert('Please log in to add items to the cart.');
             return; 
-        <?php endif; ?>
+        <?php //endif; ?>
 
         var formdata = $(this).serialize() + '&submit=submit';
 
         $.ajax({
             type: "POST",
-            url: "single.php?id=<?php echo $id ?>",
+            url: "single.php?id=<?php //echo $id ?>",
             data: formdata,
             success: function(response) {
                 if(response === "Success") {
@@ -169,35 +169,25 @@ $(document).ready(function() {
 });
 </script>
  -->
-
  <script>
-$(document).ready(function() {
-    $(document).on("submit", "#form-data", function(e) {
-        e.preventDefault();
+ $(document).ready(function() {
+    $("#form-data").submit(function(e) {
+        e.preventDefault();  // Prevent default form submission
 
-        <?php if (!$isLoggedIn): ?>
-            alert('Please log in to add items to the cart.');
-            return;
-        <?php endif; ?>
+       // alert("Added to cart");  // This will always show up
 
         var formdata = $(this).serialize() + '&submit=submit';
-        var addButton = $("#submit"); // Select the button element
 
         $.ajax({
             type: "POST",
-            url: "single.php?prod_id=<?php echo $id; ?>",
+            url: "single.php?prod_id=<?php echo $id ?>",
             data: formdata,
             success: function(response) {
-                if (response === "Success") {
-                    alert("Added to cart successfully");
-                    addButton.prop("disabled", true); // Disable the button
-                } else {
-                    alert(response); // This will alert "Failed to add to cart."
-                }
+                alert("Added to cart successfully!");  // This will show up if AJAX is successful
             },
             error: function(jqXHR, textStatus, errorThrown) {
-                console.log(jqXHR.responseText);
-                alert("Error: " + textStatus + "\n" + errorThrown);
+                console.error("Error:", textStatus, errorThrown);  // Log any errors
+                alert("Failed to add to cart. Please try again.");  // Alert the user about the error
             }
         });
     });
