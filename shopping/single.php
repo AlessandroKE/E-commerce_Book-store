@@ -12,7 +12,7 @@ error_reporting(E_ALL); */
 $isLoggedIn = isset($_SESSION['user_id']);
 
 if (isset($_POST['submit'])) {
-   $pro_id = $_POST['pro_id'];
+    $pro_id = $_POST['pro_id'];
     $pro_name = $_POST['pro_name'];
     $pro_image = $_POST['pro_image'];
     $pro_price = $_POST['pro_price'];
@@ -88,44 +88,47 @@ if (isset($_GET['prod_id'])) {
                         <p class="about"><?php echo $row->description; ?></p>
 
                         <!-- Processing Form using AJAX -->
-                        <form type = "hidden" method="POST" id="form-data">
+                        <form type="hidden" method="POST" id="form-data">
 
                             <div class="">
-                                <input name="pro_id" type = "hidden" type="text" class="form-control" value="<?php echo $row->id; ?>">
+                                <input name="pro_id" type="hidden" type="text" class="form-control" value="<?php echo $row->id; ?>">
                             </div>
 
                             <div class="">
-                                <input name="pro_name"  type = "hidden" type="text" class="form-control" value="<?php echo $row->name; ?>">
+                                <input name="pro_name" type="hidden" type="text" class="form-control" value="<?php echo $row->name; ?>">
                             </div>
 
                             <div class="">
-                                <input name="pro_image" type = "hidden" type="text" class="form-control" value="<?php echo $row->image; ?>">
+                                <input name="pro_image" type="hidden" type="text" class="form-control" value="<?php echo $row->image; ?>">
                             </div>
 
                             <div class="">
-                                <input name="pro_price" type = "hidden" type="text" class="form-control" value="<?php echo $row->price; ?>">
+                                <input name="pro_price" type="hidden" type="text" class="form-control" value="<?php echo $row->price; ?>">
                             </div>
 
                             <div class="">
-                                <input name="pro_amount" type = "hidden" type="text" class="form-control" value="1">
+                                <input name="pro_amount" type="hidden" type="text" class="form-control" value="1">
                             </div>
 
                             <div class="">
-                                <input name="pro_file" type = "hidden" type="text" class="form-control" value="<?php echo $row->file; ?>">
+                                <input name="pro_file" type="hidden" type="text" class="form-control" value="<?php echo $row->file; ?>">
                             </div>
 
                             <div class="">
-                                <input name="user_id"  type = "hidden" type="text" class="form-control" value="<?php echo $_SESSION['user_id'] ?>">
+                                <input name="user_id" type="hidden" type="text" class="form-control" value="<?php echo $_SESSION['user_id'] ?>">
                             </div>
 
                             <div class="cart mt-4 align-items-center">
-                               
-                            <?php //if($select->rowcount()>0) : ?>
-                                    <!--  <button id = "submit" name="submit" type="submit" disabled class="btn btn-primary text-uppercase mr-2 px-4"><i class="fas fa-shopping-cart"></i> Added to cart</button> -->
-                            <?php //else : ?>       
-                                     <button id = "submit" name="submit" type="submit" class="btn btn-primary text-uppercase mr-2 px-4"><i class="fas fa-shopping-cart"></i> Add to cart</button>
-                                   <!--  <button type="button" class="btn btn-secondary text-uppercase mr-2 px-4" disabled><i class="fas fa-shopping-cart"></i> Log in to add to cart</button> -->
-                              <?php //endif; ?>
+
+                                <?php //if($select->rowcount()>0) : 
+                                ?>
+                                <!--  <button id = "submit" name="submit" type="submit" disabled class="btn btn-primary text-uppercase mr-2 px-4"><i class="fas fa-shopping-cart"></i> Added to cart</button> -->
+                                <?php //else : 
+                                ?>
+                                <button id="submit" name="submit" type="submit" class="btn btn-primary text-uppercase mr-2 px-4"><i class="fas fa-shopping-cart"></i> Add to cart</button>
+                                <!--  <button type="button" class="btn btn-secondary text-uppercase mr-2 px-4" disabled><i class="fas fa-shopping-cart"></i> Log in to add to cart</button> -->
+                                <?php //endif; 
+                                ?>
                             </div>
 
                         </form>
@@ -142,16 +145,12 @@ $(document).ready(function() {
     $("#form-data").submit(function(e) {
         e.preventDefault();
 
-     <?php //if (!$isLoggedIn): ?>
-            alert('Please log in to add items to the cart.');
-            return; 
-        <?php //endif; ?>
-
         var formdata = $(this).serialize() + '&submit=submit';
 
         $.ajax({
             type: "POST",
-            url: "single.php?id=<?php //echo $id ?>",
+            url: "single.php?id=<?php //echo $id 
+                                ?>",
             data: formdata,
             success: function(response) {
                 if(response === "Success") {
@@ -169,29 +168,38 @@ $(document).ready(function() {
 });
 </script>
  -->
- <script>
- $(document).ready(function() {
-    $("#form-data").submit(function(e) {
-        e.preventDefault();
+<script>
+    $(document).ready(function() {
+        $("#form-data").submit(function(e) {
+            e.preventDefault();
 
-       // alert("Added to cart");
+            <?php if (!$isLoggedIn) :
+            ?>
+                alert('Please log in to add items to the cart.');
+                return;
+            <?php endif;
+            ?>
 
-        var formdata = $(this).serialize() + '&submit=submit';
 
-        $.ajax({
-            type: "POST",
-            url: "single.php?prod_id=<?php echo $id ?>",
-            data: formdata,
-            success: function(response) {
-                alert("Added to cart successfully!");
-                $("#submit").prop("disabled", true);  // Disable the button after successful addition
-            },
-            error: function(jqXHR, textStatus, errorThrown) {
-                console.error("Error:", textStatus, errorThrown);
-                alert("Failed to add to cart. Please try again.");
-            }
+            // alert("Added to cart");
+
+            var formdata = $(this).serialize() + '&submit=submit';
+
+            $.ajax({
+                type: "POST",
+                url: "single.php?prod_id=<?php echo $id ?>",
+                data: formdata,
+                success: function(response) {
+                    alert("Added to cart successfully!");
+                    // Disable the button after successful addition
+                    $("#submit").prop("disabled", true);
+
+                },
+                error: function(jqXHR, textStatus, errorThrown) {
+                    console.error("Error:", textStatus, errorThrown);
+                    alert("Failed to add to cart. Please try again.");
+                }
+            });
         });
     });
-});
-
 </script>
