@@ -120,14 +120,14 @@ if (isset($_GET['prod_id'])) {
 
                             <div class="cart mt-4 align-items-center">
 
-                                <?php //if($select->rowcount()>0) : 
+                                <?php if ($select->rowcount() > 0) :
                                 ?>
-                                <!--  <button id = "submit" name="submit" type="submit" disabled class="btn btn-primary text-uppercase mr-2 px-4"><i class="fas fa-shopping-cart"></i> Added to cart</button> -->
-                                <?php //else : 
+                                    <button id="submit" name="submit" type="submit" disabled class="btn btn-primary text-uppercase mr-2 px-4"><i class="fas fa-shopping-cart"></i> Added to cart</button>
+                                <?php else :
                                 ?>
-                                <button id="submit" name="submit" type="submit" class="btn btn-primary text-uppercase mr-2 px-4"><i class="fas fa-shopping-cart"></i> Add to cart</button>
-                                <!--  <button type="button" class="btn btn-secondary text-uppercase mr-2 px-4" disabled><i class="fas fa-shopping-cart"></i> Log in to add to cart</button> -->
-                                <?php //endif; 
+                                    <button id="submit" name="submit" type="submit" class="btn btn-primary text-uppercase mr-2 px-4"><i class="fas fa-shopping-cart"></i> Add to cart</button>
+
+                                <?php endif;
                                 ?>
                             </div>
 
@@ -192,7 +192,7 @@ $(document).ready(function() {
                 success: function(response) {
                     alert("Added to cart successfully!");
                     // Disable the button after successful addition
-                    $("#submit").prop("disabled", true);
+                    $("#submit").html("<i class='fas fa-shopping-cart'></i> Added to cart").prop("disabled", true);
 
                 },
                 error: function(jqXHR, textStatus, errorThrown) {
