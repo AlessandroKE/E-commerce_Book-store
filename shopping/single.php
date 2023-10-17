@@ -49,8 +49,11 @@ if (isset($_GET['prod_id'])) {
     $sql = "SELECT * FROM products WHERE id = :id AND status = 1"; // Updated SQL query using parameter binding
 
     //To include $SESSION variable one must concatenate it to a string value.
+    if(isset($_SESSION['user_id'])) {
     $select = $conn->query("SELECT * FROM cart WHERE pro_id = '$id' AND user_id = '" . $_SESSION['user_id'] . "'");
     $select->execute();
+
+    }
 
     $fetch = $select->fetch(PDO::FETCH_OBJ);
 
