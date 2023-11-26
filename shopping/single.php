@@ -68,7 +68,7 @@ if (isset($_GET['prod_id'])) {
 
 ?>
 
-<div class="row d-flex justify-content-center">
+<div class="row d-flex justify-content-center mt-4">
     <div class="col-md-10">
         <div class="card">
             <div class="row">
