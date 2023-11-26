@@ -48,11 +48,13 @@ if (isset($_GET['prod_id'])) {
 
     $sql = "SELECT * FROM products WHERE id = :id AND status = 1"; // Updated SQL query using parameter binding
 
+    if(isset($_SESSION['user_id'])){
     //To include $SESSION variable one must concatenate it to a string value.
     $select = $conn->query("SELECT * FROM cart WHERE pro_id = '$id' AND user_id = '" . $_SESSION['user_id'] . "'");
     $select->execute();
 
     $fetch = $select->fetch(PDO::FETCH_OBJ);
+    }
 
 
     $stmt = $conn->prepare($sql);
@@ -122,6 +124,8 @@ if (isset($_GET['prod_id'])) {
 
                             <?php endif; ?>
 
+
+                           <?php  if(isset($_SESSION['user_id'])) : ?>
                             <div class="cart mt-4 align-items-center">
 
                                 <?php if ($select->rowcount() > 0) :
@@ -132,8 +136,10 @@ if (isset($_GET['prod_id'])) {
                                     <button id="submit" name="submit" type="submit" class="btn btn-primary text-uppercase mr-2 px-4"><i class="fas fa-shopping-cart"></i> Add to cart</button>
 
                                 <?php endif;
+                                
                                 ?>
                             </div>
+                            <?php endif; ?>
 
                         </form>
                     </div>
