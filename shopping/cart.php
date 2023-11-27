@@ -1,4 +1,16 @@
+<!-- Dynamic Web Pages-->
 <?php require "../includes/header.php"; ?>
+<?php require "../config/config.php"; ?>
+
+<?php 
+
+$product = $conn->query("SELECT * FROM cart WHERE user_id = '" . $_SESSION['user_id'] . "'");
+$product->execute();
+
+
+$allProducts = $product->fetchAll(PDO::FETCH_OBJ);
+
+?>
     <div class="row d-flex justify-content-center align-items-center h-100 mt-5 mt-5">
       <div class="col-12">
         <div class="card card-registration card-registration-2" style="border-radius: 15px;">
@@ -32,32 +44,6 @@
                         class="img-fluid rounded-3" alt="Cotton T-shirt">
                         </td>
                         <td>Django Book</td>
-                        <td>$20</td>
-                        <td><input id="form1" min="1" name="quantity" value="1" type="number"
-                        class="form-control form-control-sm" /></td>
-                        <td>$120</td>
-                        <td><a href="#" class="btn btn-danger text-white"><i class="fas fa-trash-alt"></i> </a></td>
-                      </tr>
-                      <tr>
-                        <th scope="row">2</th>
-                        <td><img width="100" height="100"
-                        src="../images/node.png"
-                        class="img-fluid rounded-3" alt="Cotton T-shirt">
-                        </td>
-                        <td>Node Book</td>
-                        <td>$20</td>
-                        <td><input id="form1" min="1" name="quantity" value="1" type="number"
-                        class="form-control form-control-sm" /></td>
-                        <td>$120</td>
-                        <td><a href="#" class="btn btn-danger text-white"><i class="fas fa-trash-alt"></i> </a></td>
-                      </tr>
-                      <tr>
-                        <th scope="row">3</th>
-                        <td><img width="100" height="100"
-                        src="../images/html5.jpg"
-                        class="img-fluid rounded-3" alt="Cotton T-shirt">
-                        </td>
-                        <td>HTML5 Book</td>
                         <td>$20</td>
                         <td><input id="form1" min="1" name="quantity" value="1" type="number"
                         class="form-control form-control-sm" /></td>
