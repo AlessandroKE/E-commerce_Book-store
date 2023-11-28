@@ -44,15 +44,15 @@ $allProducts = $product->fetchAll(PDO::FETCH_OBJ);
                       <td><img width="100" height="100" src="../images/<?php echo $product->pro_image ?>" class="img-fluid rounded-3" alt="Cotton T-shirt">
                       </td>
                       <td><?php echo $product->pro_name ?></td>
-                      <td><?php echo $product->pro_price ?></td>
-                      
-                      <!-- To confirm and update later, Ajax Query -->
-                      <td><input id="form1" min="1" name="quantity" value="<?php $product->pro_amount ?>" type="number"
-                        class="form-control form-control-sm" /></td>
+                      <td class="pro_price"><?php echo $product->pro_price ?></td>
 
-                      <td>$<?php echo $product->pro_price * $product->pro_amount ?></td>
-                      <td><button  class="btn btn-warning text-white"><i class="fas fa-pen"></i> </button></td>
-                      <td><button  class="btn btn-danger text-white"><i class="fas fa-trash-alt"></i> </button></td>
+                      <!-- To confirm and update later, Ajax Query -->
+                      <td><input id="form1" min="1" name="quantity" value="<?php echo $product->pro_amount ?>" type="number" class="form-control form-control-sm pro_amount" />
+                      </td>
+
+                      <td class="total_price"><?php echo $product->pro_price * $product->pro_amount ?></td>
+                      <td> button value = "<?php echo $product->id ?> "<button class=" btn-update btn btn-warning text-white" ><i class="fas fa-pen" ></i> </button></td>
+                      <td><button class="btn btn-danger text-white"><i class="fas fa-trash-alt"></i> </button></td>
                     </tr>
 
                   <?php endforeach; ?>
@@ -70,7 +70,7 @@ $allProducts = $product->fetchAll(PDO::FETCH_OBJ);
 
               <div class="d-flex justify-content-between mb-5">
                 <h5 class="text-uppercase">Total price</h5>
-                <h5>€ 137.00</h5>
+                <h5 class="full_price"></h5>
               </div>
 
               <button type="button" class="btn btn-dark btn-block btn-lg" data-mdb-ripple-color="dark">Checkout</button>
@@ -89,67 +89,71 @@ $allProducts = $product->fetchAll(PDO::FETCH_OBJ);
 
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script>
-$(document).ready(function() // This line of code defines the codes below as Jquery code.
-{
-$(".pro_amount").mouseup(function () {
-                  
-                  var $el = $(this).closest('tr');
+  $(document).ready(function() {
+    $(".pro_amount").mouseup(function() {
 
-        
+      var $el = $(this).closest('tr');
 
-                  var pro_amount = $el.find(".pro_amount").val();
-                  var pro_price = $el.find(".pro_price").html();
 
-                  var total = pro_amount * pro_price;
-                  $el.find(".total_price").html("");        
 
-                  $el.find(".total_price").append(total+'$');
+      var pro_amount = $el.find(".pro_amount").val();
+      var pro_price = $el.find(".pro_price").html();
 
-                  /* $(".btn-update").on('click', function(e) {
+      var total = pro_amount * pro_price;
+      $el.find(".total_price").html("");
 
-                      var id = $(this).val();
-                    
+      $el.find(".total_price").append(total + '$');
 
-                      $.ajax({
-                        type: "POST",
-                        url: "update-item.php",
-                        data: {
-                          update: "update",
-                          id: id,
-                          product_amount: pro_amount
-                        },
 
-                        success: function() {
-                         // alert("done");
-                          reload();
-                        }
-                      })
-                    });
-                  */
-                
-           //fetch();     
+
+      $(".btn-update").on('click', function(e) {
+
+        var id = $(this).val();
+
+
+        $.ajax({
+          type: "POST",
+          url: "update-item.php",
+          data: {
+            update: "update",
+            id: id,
+            pro_amount: pro_amount
+          },
+
+          success: function() {
+            // alert("done");
+            reload();
+          }
+        })
       });
 
-     /*  fetch();
 
-      function fetch() {
 
-        setInterval(function () {
-                  var sum = 0.0;
-                  $('.total_price').each(function()
-                  {
-                      sum += parseFloat($(this).text());
-                  });
-                  $(".full_price").html(sum+"$");
-        }, 4000);
-      } 
-      
-      function reload() {
 
-       
-            $("body").load("cart.php")
-       
-      } */
+
+      fetch();
+    });
+
+    fetch();
+
+    function fetch() {
+
+      setInterval(function() {
+        var sum = 0.0;
+        $('.total_price').each(function() {
+          sum += parseFloat($(this).text());
+        });
+        $(".full_price").html(sum + "$");
+      }, 4000);
+    }
+   
+    function reload() {
+
+     
+          $("body").load("cart.php");
+    }
+    
+  });
 </script>
 
 
