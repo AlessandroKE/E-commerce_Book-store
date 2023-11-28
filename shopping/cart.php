@@ -45,10 +45,10 @@ $allProducts = $product->fetchAll(PDO::FETCH_OBJ);
                       </td>
                       <td><?php echo $product->pro_name ?></td>
                       <td><?php echo $product->pro_price ?></td>
+                      
                       <!-- To confirm and update later, Ajax Query -->
-                      <td>
-                        <input id="quantity_<?php echo $product->pro_id ?>" min="1" name="quantity" value="<?php echo $product->pro_amount ?>" type="number" class="form-control form-control-sm quantity-input" data-product-id="<?php echo $product->pro_id ?>" />
-                      </td>
+                      <td><input id="form1" min="1" name="quantity" value="<?php $product->pro_amount ?>" type="number"
+                        class="form-control form-control-sm" /></td>
 
                       <td>$<?php echo $product->pro_price * $product->pro_amount ?></td>
                       <td><button  class="btn btn-warning text-white"><i class="fas fa-pen"></i> </button></td>
@@ -89,7 +89,8 @@ $allProducts = $product->fetchAll(PDO::FETCH_OBJ);
 
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script>
-
+$(document).ready(function() // This line of code defines the codes below as Jquery code.
+{
 $(".pro_amount").mouseup(function () {
                   
                   var $el = $(this).closest('tr');
