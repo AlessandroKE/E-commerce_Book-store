@@ -33,6 +33,7 @@ $allProducts = $product->fetchAll(PDO::FETCH_OBJ);
                     <th scope="col">Price</th>
                     <th scope="col">Quantity</th>
                     <th scope="col">Total Price</th>
+                    <th scope="col">Update</th>
                     <th scope="col"><a href="#" class="btn btn-danger text-white">Clear</a></th>
                   </tr>
                 </thead>
@@ -40,22 +41,24 @@ $allProducts = $product->fetchAll(PDO::FETCH_OBJ);
                   <?php foreach ($allProducts as $product) : ?>
                     <tr class="mb-4">
                       <th scope="row"><?php echo $product->pro_id ?></th>
-                      <td><img width="100" height="100" src="../images/<?php echo $product->pro_img ?>" class="img-fluid rounded-3" alt="Cotton T-shirt">
+                      <td><img width="100" height="100" src="../images/<?php echo $product->pro_image ?>" class="img-fluid rounded-3" alt="Cotton T-shirt">
                       </td>
                       <td><?php echo $product->pro_name ?></td>
                       <td><?php echo $product->pro_price ?></td>
+                      <!-- To confirm and update later, Ajax Query -->
                       <td>
                         <input id="quantity_<?php echo $product->pro_id ?>" min="1" name="quantity" value="<?php echo $product->pro_amount ?>" type="number" class="form-control form-control-sm quantity-input" data-product-id="<?php echo $product->pro_id ?>" />
                       </td>
 
                       <td>$<?php echo $product->pro_price * $product->pro_amount ?></td>
-                      <td><a href="#" class="btn btn-danger text-white"><i class="fas fa-trash-alt"></i> </a></td>
+                      <td><button  class="btn btn-warning text-white"><i class="fas fa-pen"></i> </button></td>
+                      <td><button  class="btn btn-danger text-white"><i class="fas fa-trash-alt"></i> </button></td>
                     </tr>
 
                   <?php endforeach; ?>
                 </tbody>
               </table>
-              <a href="#" class="btn btn-success text-white"><i class="fas fa-arrow-left"></i> Continue Shopping</a>
+              <a href="<?php echo APPURL; ?>" class="btn btn-success text-white"><i class="fas fa-arrow-left"></i> Continue Shopping</a>
             </div>
           </div>
           <div class="col-lg-4 bg-grey">
@@ -86,26 +89,66 @@ $allProducts = $product->fetchAll(PDO::FETCH_OBJ);
 
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script>
-$(document).ready(function() {
-  $('.quantity-input').on('change', function() {
-    var productId = $(this).data('product-id');
-    var newQuantity = $(this).val();
 
-    // Send the data to the server
-    $.ajax({
-      url: 'update_quantity.php', // The PHP file that will update the quantity in the database
-      type: 'POST',
-      data: {
-        'product_id': productId,
-        'new_quantity': newQuantity
-      },
-      success: function(response) {
-        // Handle the response from the server
-        console.log(response);
-      }
-    });
-  });
-});
+$(".pro_amount").mouseup(function () {
+                  
+                  var $el = $(this).closest('tr');
+
+        
+
+                  var pro_amount = $el.find(".pro_amount").val();
+                  var pro_price = $el.find(".pro_price").html();
+
+                  var total = pro_amount * pro_price;
+                  $el.find(".total_price").html("");        
+
+                  $el.find(".total_price").append(total+'$');
+
+                  /* $(".btn-update").on('click', function(e) {
+
+                      var id = $(this).val();
+                    
+
+                      $.ajax({
+                        type: "POST",
+                        url: "update-item.php",
+                        data: {
+                          update: "update",
+                          id: id,
+                          product_amount: pro_amount
+                        },
+
+                        success: function() {
+                         // alert("done");
+                          reload();
+                        }
+                      })
+                    });
+                  */
+                
+           //fetch();     
+      });
+
+     /*  fetch();
+
+      function fetch() {
+
+        setInterval(function () {
+                  var sum = 0.0;
+                  $('.total_price').each(function()
+                  {
+                      sum += parseFloat($(this).text());
+                  });
+                  $(".full_price").html(sum+"$");
+        }, 4000);
+      } 
+      
+      function reload() {
+
+       
+            $("body").load("cart.php")
+       
+      } */
 </script>
 
 
