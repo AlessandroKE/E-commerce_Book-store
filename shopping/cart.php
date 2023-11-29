@@ -47,11 +47,17 @@ $allProducts = $product->fetchAll(PDO::FETCH_OBJ);
                       <td class="pro_price"><?php echo $product->pro_price ?></td>
 
                       <!-- To confirm and update later, Ajax Query -->
-                      <td><input id="form1" min="1" name="quantity" value="<?php echo $product->pro_amount ?>" type="number" class="form-control form-control-sm pro_amount" />
+                      <td>
+                        <input id="form1" min="1" name="quantity" value="<?php echo $product->pro_amount ?>" type="number" class="form-control form-control-sm pro_amount" />
                       </td>
 
                       <td class="total_price"><?php echo $product->pro_price * $product->pro_amount ?></td>
-                      <td> button value = "<?php echo $product->id ?> "<button class=" btn-update btn btn-warning text-white" ><i class="fas fa-pen" ></i> </button></td>
+                      <td>
+                        <button value="<?php echo $product->id ?>" class="btn-update btn btn-warning text-white">
+                          <i class="fas fa-pen"></i>
+                        </button>
+                      </td>
+
                       <td><button class="btn btn-danger text-white"><i class="fas fa-trash-alt"></i> </button></td>
                     </tr>
 
@@ -90,70 +96,67 @@ $allProducts = $product->fetchAll(PDO::FETCH_OBJ);
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script>
   $(document).ready(function() {
-    $(".pro_amount").mouseup(function() {
+    $(".pro_amount").mouseup(function () {
+                  
+                  var $el = $(this).closest('tr');
 
-      var $el = $(this).closest('tr');
+        
 
+                  var pro_amount = $el.find(".pro_amount").val();
+                  var pro_price = $el.find(".pro_price").html();
 
+                  var total = pro_amount * pro_price;
+                  $el.find(".total_price").html("");        
 
-      var pro_amount = $el.find(".pro_amount").val();
-      var pro_price = $el.find(".pro_price").html();
+                  $el.find(".total_price").append(total+'$');
 
-      var total = pro_amount * pro_price;
-      $el.find(".total_price").html("");
+                  $(".btn-update").on('click', function(e) {
 
-      $el.find(".total_price").append(total + '$');
+                      var id = $(this).val();
+                    
 
+                      $.ajax({
+                        type: "POST",
+                        url: "update-item.php",
+                        data: {
+                          update: "update",
+                          id: id,
+                          pro_amount: pro_amount
+                        },
 
-
-      $(".btn-update").on('click', function(e) {
-
-        var id = $(this).val();
-
-
-        $.ajax({
-          type: "POST",
-          url: "update-item.php",
-          data: {
-            update: "update",
-            id: id,
-            pro_amount: pro_amount
-          },
-
-          success: function() {
-            // alert("done");
-            reload();
-          }
-        })
+                        success: function() {
+                       // alert("done");
+                         // reload();
+                        }
+                      })
+                    });
+                 
+                
+           fetch();     
       });
 
-
-
-
-
       fetch();
+
+      function fetch() {
+
+        setInterval(function () {
+                  var sum = 0.0;
+                  $('.total_price').each(function()
+                  {
+                      sum += parseFloat($(this).text());
+                  });
+                  $(".full_price").html(sum+"$");
+        }, 4000);
+      } 
+      
+      function reload() {
+
+       
+            $("body").load("cart.php")
+       
+      }
+
     });
-
-    fetch();
-
-    function fetch() {
-
-      setInterval(function() {
-        var sum = 0.0;
-        $('.total_price').each(function() {
-          sum += parseFloat($(this).text());
-        });
-        $(".full_price").html(sum + "$");
-      }, 4000);
-    }
-   
-    function reload() {
-
-     
-          $("body").load("cart.php");
-    }
-    
-  });
 </script>
 
 
