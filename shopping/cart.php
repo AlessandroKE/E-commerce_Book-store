@@ -116,7 +116,7 @@ $allProducts = $product->fetchAll(PDO::FETCH_OBJ);
 
         $.ajax({
           type: "POST",
-          url: "update-item.php",
+          url: "delete-item.php",
           data: {
             update: "update",
             id: id,
