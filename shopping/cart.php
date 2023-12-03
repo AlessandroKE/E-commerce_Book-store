@@ -124,8 +124,8 @@ $allProducts = $product->fetchAll(PDO::FETCH_OBJ);
           },
 
           success: function() {
-           //alert("done");
-           // reload();
+            //alert("done");
+            // reload();
           }
         })
       });
@@ -134,31 +134,31 @@ $allProducts = $product->fetchAll(PDO::FETCH_OBJ);
       fetch();
     });
 
-      //delete item from cart
+    //delete item from cart
 
-         $(".btn-delete").on('click', function(e) {
+    $(".btn-delete").on('click', function(e) {
 
-            var id = $(this).val();
-
-
-            $.ajax({
-              type: "POST",
-              url: "update-item.php",
-              data: {
-                //update: "update",
-                //id: id,
-                //pro_amount: pro_amount
-              },
-
-              success: function() {
-                // alert("done");
-                // reload();
-              }
-            })
-          });
+      var id = $(this).val();
 
 
-          fetch();
+      $.ajax({
+        type: "POST",
+        url: "delete-item.php",
+        data: {
+          delete: "delete",
+          id: id,
+          pro_amount: pro_amount
+        },
+
+        success: function() {
+          // alert("done");
+          // reload();
+        }
+      })
+    });
+
+
+    fetch();
 
     function fetch() {
 
