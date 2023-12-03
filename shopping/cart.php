@@ -147,12 +147,11 @@ $allProducts = $product->fetchAll(PDO::FETCH_OBJ);
         data: {
           delete: "delete",
           id: id,
-          pro_amount: pro_amount
         },
 
         success: function() {
-          // alert("done");
-          // reload();
+          alert("Product deleted successfully");
+          reload();
         }
       })
     });
