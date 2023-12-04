@@ -34,7 +34,7 @@ $allProducts = $product->fetchAll(PDO::FETCH_OBJ);
                     <th scope="col">Quantity</th>
                     <th scope="col">Total Price</th>
                     <th scope="col">Update</th>
-                    <th scope="col"><a href="#" class="btn btn-danger text-white">Clear</a></th>
+                    <th scope="col"><button class="delete-all btn btn-danger text-white">Clear</button></th>
                   </tr>
                 </thead>
                 <tbody>
@@ -57,7 +57,12 @@ $allProducts = $product->fetchAll(PDO::FETCH_OBJ);
                         </button>
                       </td>
 
-                      <td><button class="btn-delete btn btn-danger text-white"><i class="fas fa-trash-alt"></i> </button></td>
+                      <td>
+                        <button value="<?php echo $product->id; ?>" class="btn-delete btn btn-danger text-white">
+                          <i class="fas fa-trash-alt"></i>
+                        </button>
+                      </td>
+
                     </tr>
 
                   <?php endforeach; ?>
@@ -109,6 +114,8 @@ $allProducts = $product->fetchAll(PDO::FETCH_OBJ);
 
       $el.find(".total_price").append(total + '$');
 
+      //update Cart
+
       $(".btn-update").on('click', function(e) {
 
         var id = $(this).val();
@@ -116,7 +123,7 @@ $allProducts = $product->fetchAll(PDO::FETCH_OBJ);
 
         $.ajax({
           type: "POST",
-          url: "delete-item.php",
+          url: "update-item.php",
           data: {
             update: "update",
             id: id,
@@ -129,7 +136,6 @@ $allProducts = $product->fetchAll(PDO::FETCH_OBJ);
           }
         })
       });
-
 
       fetch();
     });
@@ -156,8 +162,10 @@ $allProducts = $product->fetchAll(PDO::FETCH_OBJ);
       })
     });
 
-
     fetch();
+
+    // Clear all items from cart.
+    
 
     function fetch() {
 

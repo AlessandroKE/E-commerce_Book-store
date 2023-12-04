@@ -1,27 +1,19 @@
-<?php require "../includes/header.php"; ?>
-<?php require "../config/config.php"; ?>
+<?php 
+require "../includes/header.php"; 
+require "../config/config.php";
+
+//header('Content-Type: application/json');
 
 
-<?php
-
-if (isset($_POST['delte'])){
+if (isset($_POST['delete'])){
     $id = $_POST['id'];
 
-    $delete = $conn->prepare("DELET FROM cart  WHERE id = '$id'");
-    $delete->execute();
-     // Execute the query
-/*      if($insert->execute()) {
-       // echo "Quantity updated successfully";
-    } else {
-        echo "Error updating record: ";
-    }
- */
-
+    $delete = $conn->prepare("DELETE FROM cart WHERE id = :id");
+    $delete->bindParam(':id', $id, PDO::PARAM_INT);
+   $delete->execute();
+  
 }
 ?>
 
-
-
-
-
 <?php require "../includes/footer.php"; ?>
+
