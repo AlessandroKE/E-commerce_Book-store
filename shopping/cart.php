@@ -120,11 +120,14 @@ $allProducts = $product->fetchAll(PDO::FETCH_OBJ);
 
         var id = $(this).val();
 
-
+        //Working with Ajax JQUERY method
         $.ajax({
           type: "POST",
           url: "update-item.php",
           data: {
+            /* data: { update: "update", id: id, pro_amount: pro_amount }: Sends data to the server. 
+            In this case, it sends three parameters (update, id, and pro_amount) to the server.
+            The values for these parameters are taken from the variables id and pro_amount. */
             update: "update",
             id: id,
             pro_amount: pro_amount
